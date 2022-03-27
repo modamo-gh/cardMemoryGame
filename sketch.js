@@ -1,5 +1,8 @@
 function setup() {
 	createCanvas(displayWidth, displayHeight);
+
+	startButton = new Button(windowWidth / 2, windowHeight / 2, 200, 50);
+
 	numberOfCards = 8;
 	cards = [];
 	cardValues = [];
@@ -46,11 +49,8 @@ function setup() {
 function draw() {
 	background(220);
 
-	rectMode(CENTER);
-	rect(windowWidth / 2, windowHeight / 2, 200, 50);
-	textSize(24);
-	text("Start Game", windowWidth / 2, windowHeight / 2);
-	textAlign(CENTER, CENTER);
+	// Start Button
+	startButton.show();
 
 	// for (let i = 0; i < cards.length; i++) {
 	// 	cards[i].show();
