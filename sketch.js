@@ -1,6 +1,6 @@
 function setup() {
 	createCanvas(displayWidth, displayHeight);
-	numberOfCards = 36;
+	numberOfCards = 8;
 	cards = [];
 	cardValues = [];
 	currentHand = [];
@@ -46,9 +46,15 @@ function setup() {
 function draw() {
 	background(220);
 
-	for (let i = 0; i < cards.length; i++) {
-		cards[i].show();
-	}
+	rectMode(CENTER);
+	rect(windowWidth / 2, windowHeight / 2, 200, 50);
+	textSize(24);
+	text("Start Game", windowWidth / 2, windowHeight / 2);
+	textAlign(CENTER, CENTER);
+
+	// for (let i = 0; i < cards.length; i++) {
+	// 	cards[i].show();
+	// }
 }
 
 function checkIfCardHasValue(i) {
