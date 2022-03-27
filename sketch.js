@@ -9,6 +9,7 @@ function setup() {
 	cardValues = [];
 	currentHand = [];
 	factors = [];
+	pairs = 0;
 
 	for (let i = 1; i <= numberOfCards / 2; i++) {
 		if (numberOfCards % i === 0) {
@@ -114,6 +115,8 @@ function mouseClicked() {
 
 				cards.splice(cards.indexOf(currentHand[0]), 1);
 				currentHand.shift();
+
+				pairs++;
 			} else if (
 				currentHand.length === 2 &&
 				currentHand[0].getValue() !== currentHand[1].getValue()
@@ -126,6 +129,10 @@ function mouseClicked() {
 					currentHand.pop();
 				}, 1000);
 			}
+		}
+
+		if (pairs === numberOfCards / 2) {
+			console.log("Finished");
 		}
 	}
 }
