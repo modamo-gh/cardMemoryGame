@@ -11,6 +11,8 @@ function setup() {
 	factors = [];
 	pairs = 0;
 
+	startTime = 0;
+
 	for (let i = 1; i <= numberOfCards / 2; i++) {
 		if (numberOfCards % i === 0) {
 			factors.push(i);
@@ -59,6 +61,10 @@ function draw() {
 
 		for (let i = 0; i < cards.length; i++) {
 			cards[i].show();
+		}
+
+		if (startTime === 0) {
+			startTime = millis();
 		}
 	}
 }
@@ -132,7 +138,12 @@ function mouseClicked() {
 		}
 
 		if (pairs === numberOfCards / 2) {
-			alert("Finished!");
+			endTime = millis();
+			alert(
+				`Congratulations! You finished in ${
+					(endTime - startTime) / 1000
+				} seconds`
+			);
 		}
 	}
 }
