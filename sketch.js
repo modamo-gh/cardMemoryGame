@@ -132,7 +132,7 @@ function mouseClicked() {
 		}
 
 		if (pairs === numberOfCards / 2) {
-			console.log("Finished");
+			alert("Finished!");
 		}
 	}
 }
