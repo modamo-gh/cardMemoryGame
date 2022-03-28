@@ -36,7 +36,8 @@ function setup() {
 
 	for (let i = 0; i < numberOfCards; i++) {
 		const xCoordinate = ((i % cardsPerRows) * windowWidth) / cardsPerRows;
-		let yCoordinate = (Math.floor(i / cardsPerRows) * windowHeight) / rows;
+		const yCoordinate =
+			(Math.floor(i / cardsPerRows) * windowHeight) / rows;
 		const cardWidth = windowWidth / cardsPerRows;
 		const cardHeight = windowHeight / rows;
 
@@ -138,7 +139,7 @@ function mouseClicked() {
 		}
 
 		if (pairs === numberOfCards / 2) {
-			endTime = millis();
+			const endTime = millis();
 			alert(
 				`Congratulations! You finished in ${
 					(endTime - startTime) / 1000
