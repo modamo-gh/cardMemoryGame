@@ -55,6 +55,7 @@ function draw() {
 	background(220);
 
 	if (!startGame) {
+		startButton.update(windowWidth / 2, windowHeight / 2);
 		startButton.show();
 	} else {
 		clear();

@@ -13,4 +13,9 @@ class Button {
 		text("Start Game", this.x, this.y);
 		textAlign(CENTER, CENTER);
 	}
+
+	update(x, y) {
+		this.x = x;
+		this.y = y;
+	}
 }
