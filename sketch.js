@@ -35,13 +35,15 @@ function setup() {
 	}
 
 	for (let i = 0; i < numberOfCards; i++) {
-		const xCoordinate = ((i % cardsPerRows) * windowWidth) / cardsPerRows;
+		const xCoordinate =
+			((i % cardsPerRows) * windowWidth) / cardsPerRows +
+			windowWidth / cardsPerRows / 2;
 		const yCoordinate =
-			(Math.floor(i / cardsPerRows) * windowHeight) / rows;
-		const cardWidth = windowWidth / cardsPerRows;
-		const cardHeight = windowHeight / rows;
+			(Math.floor(i / cardsPerRows) * windowHeight) / rows +
+			windowHeight / rows / 2;
+		const diameter = (0.9 * windowWidth) / cardsPerRows;
 
-		cards[i] = new Card(xCoordinate, yCoordinate, cardWidth, cardHeight);
+		cards[i] = new Card(xCoordinate, yCoordinate, diameter);
 	}
 
 	for (let i = 0; i < cardValues.length; i++) {
@@ -52,14 +54,14 @@ function setup() {
 }
 
 function draw() {
-	background(220);
+	background("#caffbf");
 
 	if (!startGame) {
 		startButton.update(windowWidth / 2, windowHeight / 2);
 		startButton.show();
 	} else {
 		clear();
-		rectMode(CORNER);
+		background("#caffbf");
 
 		for (let i = 0; i < cards.length; i++) {
 			cards[i].show();
@@ -104,6 +106,7 @@ function mouseClicked() {
 			) {
 				clickedCard = cards[i];
 				clickedCard.flip();
+				break;
 			}
 		}
 

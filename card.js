@@ -1,9 +1,8 @@
 class Card {
-	constructor(x, y, w, h) {
+	constructor(x, y, d) {
 		this.x = x;
 		this.y = y;
-		this.w = w;
-		this.h = h;
+		this.d = d;
 		this.value;
 		this.isShowingBack = true;
 	}
@@ -33,13 +32,14 @@ class Card {
 	}
 
 	showBack() {
-		fill("#bdb2ff");
-		rect(this.x, this.y, this.w, this.h, 10);
+		fill("#4DA346");
+		circle(this.x, this.y, this.d);
 	}
 
 	showFront() {
 		fill(255, 255, 255);
-		rect(this.x, this.y, this.w, this.h, 10);
+		circle(this.x, this.y, this.d);
+
 		fill(0, 0, 0);
 		text(this.value, this.x + this.w / 2, this.y + this.h / 2);
 		textAlign(CENTER, CENTER);
