@@ -41,7 +41,7 @@ class Card {
 		circle(this.x, this.y, this.d);
 
 		fill(0, 0, 0);
-		text(this.value, this.x + this.w / 2, this.y + this.h / 2);
+		text(this.value, this.x, this.y);
 		textAlign(CENTER, CENTER);
 		textSize(32);
 	}
