@@ -1,4 +1,12 @@
 class Button {
+	/**
+	 * Constructor for start button
+	 *
+	 * @param {*} x - x coordinate of origin
+	 * @param {*} y - y coordinate of origin
+	 * @param {*} w - width of button
+	 * @param {*} h - height of button
+	 */
 	constructor(x, y, w, h) {
 		this.x = x;
 		this.y = y;
@@ -6,6 +14,9 @@ class Button {
 		this.h = h;
 	}
 
+	/**
+	 * Displays button with "Start Game" text
+	 */
 	show() {
 		rectMode(CENTER);
 		rect(this.x, this.y, this.w, this.h);
@@ -14,6 +25,13 @@ class Button {
 		textAlign(CENTER, CENTER);
 	}
 
+	/**
+	 * Updates the x and y coordinates so even when resizing the window,
+	 * the start button is centered
+	 *
+	 * @param {number} x - x coordinate
+	 * @param {number} y - y coordinate
+	 */
 	update(x, y) {
 		this.x = x;
 		this.y = y;
