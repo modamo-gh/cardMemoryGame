@@ -99,10 +99,10 @@ function mouseClicked() {
 
 		for (let i = 0; i < cards.length; i++) {
 			if (
-				mouseX <= cards[i].x + cards[i].w &&
-				mouseX >= cards[i].x &&
-				mouseY <= cards[i].y + cards[i].h &&
-				mouseY >= cards[i].y
+				Math.sqrt(
+					(mouseX - cards[i].x) ** 2 + (mouseY - cards[i].y) ** 2
+				) <=
+				cards[i].d / 2
 			) {
 				clickedCard = cards[i];
 				clickedCard.flip();
