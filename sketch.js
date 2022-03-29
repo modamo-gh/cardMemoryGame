@@ -93,6 +93,8 @@ function mouseClicked() {
 			startGame = true;
 		}
 	} else {
+		let clickedCard = null;
+
 		for (let i = 0; i < cards.length; i++) {
 			if (
 				mouseX <= cards[i].x + cards[i].w &&
@@ -100,43 +102,46 @@ function mouseClicked() {
 				mouseY <= cards[i].y + cards[i].h &&
 				mouseY >= cards[i].y
 			) {
-				cards[i].flip();
+				clickedCard = cards[i];
+				clickedCard.flip();
 			}
+		}
 
-			if (
-				currentHand.length < 2 &&
-				!cards[i].getIsShowingBack() &&
-				cards[i] !== currentHand[0]
-			) {
-				currentHand.push(cards[i]);
-			} else if (
-				currentHand.length === 1 &&
-				currentHand[0].getIsShowingBack()
-			) {
-				currentHand.shift();
-			} else if (
-				currentHand.length === 2 &&
-				currentHand[0].getValue() === currentHand[1].getValue()
-			) {
-				cards.splice(cards.indexOf(currentHand[0]), 1);
-				currentHand.shift();
+		if (
+			currentHand.length < 2 &&
+			!clickedCard.getIsShowingBack() &&
+			clickedCard !== currentHand[0]
+		) {
+			currentHand.push(clickedCard);
+		} else if (
+			currentHand.length === 1 &&
+			currentHand[0].getIsShowingBack()
+		) {
+			currentHand.shift();
+		}
 
-				cards.splice(cards.indexOf(currentHand[0]), 1);
-				currentHand.shift();
+		if (
+			currentHand.length === 2 &&
+			currentHand[0].getValue() !== currentHand[1].getValue()
+		) {
+			setTimeout(function () {
+				currentHand[0]?.flip();
+				currentHand[1]?.flip();
 
-				pairs++;
-			} else if (
-				currentHand.length === 2 &&
-				currentHand[0].getValue() !== currentHand[1].getValue()
-			) {
-				setTimeout(function () {
-					currentHand[0]?.flip();
-					currentHand[1]?.flip();
+				currentHand.pop();
+				currentHand.pop();
+			}, 1000);
+		} else if (
+			currentHand.length === 2 &&
+			currentHand[0].getValue() === currentHand[1].getValue()
+		) {
+			cards.splice(cards.indexOf(currentHand[0]), 1);
+			currentHand.shift();
 
-					currentHand.pop();
-					currentHand.pop();
-				}, 1000);
-			}
+			cards.splice(cards.indexOf(currentHand[0]), 1);
+			currentHand.shift();
+
+			pairs++;
 		}
 
 		if (pairs === numberOfCards / 2) {
