@@ -41,7 +41,12 @@ function setup() {
 		const yCoordinate =
 			(Math.floor(i / cardsPerRows) * windowHeight) / rows +
 			windowHeight / rows / 2;
-		const diameter = (0.9 * windowWidth) / cardsPerRows;
+
+		if (windowWidth / cardsPerRows > windowHeight / rows) {
+			diameter = (0.9 * windowHeight) / rows;
+		} else {
+			diameter = (0.9 * windowWidth) / cardsPerRows;
+		}
 
 		cards[i] = new Card(xCoordinate, yCoordinate, diameter);
 	}
