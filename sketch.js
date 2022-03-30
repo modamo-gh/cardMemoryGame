@@ -1,10 +1,15 @@
+let titleFont;
+
+function preload() {
+	titleFont = loadFont("assets/ChelseaMarket-Regular.ttf");
+}
 function setup() {
 	createCanvas(displayWidth, displayHeight);
 
 	startButton = new Button(windowWidth / 2, windowHeight / 2, 200, 50);
 	startGame = false;
 
-	numberOfCards = 8;
+	numberOfCards = 24;
 	cards = [];
 	cardValues = [];
 	currentHand = [];
@@ -62,6 +67,13 @@ function draw() {
 	background("#caffbf");
 
 	if (!startGame) {
+		fill("#4DA346");
+		textFont(titleFont);
+		textSize(48);
+		text("Two Peas in a Pod", windowWidth / 2, windowHeight / 4);
+		textAlign(CENTER, CENTER);
+
+		fill(255);
 		startButton.update(windowWidth / 2, windowHeight / 2);
 		startButton.show();
 	} else {

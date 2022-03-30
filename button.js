@@ -21,6 +21,7 @@ class Button {
 		rectMode(CENTER);
 		rect(this.x, this.y, this.w, this.h);
 		textSize(24);
+		fill(0);
 		text("Start Game", this.x, this.y);
 		textAlign(CENTER, CENTER);
 	}
