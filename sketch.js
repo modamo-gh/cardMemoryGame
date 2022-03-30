@@ -101,7 +101,7 @@ function checkIfCardHasValue(i) {
 	}
 }
 
-function mouseClicked() {
+function touchStarted() {
 	if (!startGame) {
 		if (
 			mouseX <= startButton.x + startButton.w / 2 &&
