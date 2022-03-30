@@ -166,11 +166,9 @@ function touchStarted() {
 
 		if (pairs === numberOfCards / 2) {
 			const endTime = millis();
-			alert(
-				`Congratulations! You finished in ${
-					(endTime - startTime) / 1000
-				} seconds`
-			);
+			let gameTime = ((endTime - startTime) / 1000).toFixed(2);
+
+			alert(`Congratulations! You finished in ${gameTime} seconds`);
 		}
 	}
 }
