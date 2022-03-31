@@ -69,7 +69,7 @@ function draw() {
 	if (!startGame) {
 		fill("#4DA346");
 		textFont(titleFont);
-		textSize(48);
+		textSize(windowWidth * 0.1);
 		text("Two Peas in a Pod", windowWidth / 2, windowHeight / 4);
 		textAlign(CENTER, CENTER);
 
