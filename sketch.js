@@ -1,4 +1,5 @@
 let titleFont;
+let startGame;
 
 /**
  * Preload the font used in the game
@@ -13,9 +14,132 @@ function preload() {
 function setup() {
 	createCanvas(displayWidth, displayHeight);
 
-	startButton = new Button(windowWidth / 2, windowHeight / 2, 200, 50);
-	startGame = false;
+	createMenuButtons();
 
+	startGame = false;
+}
+
+/**
+ * What the player sees
+ */
+function draw() {
+	background("#caffbf");
+
+	if (!startGame) {
+		fill("#4DA346");
+		textFont(titleFont);
+		textSize(windowWidth * 0.1);
+		text("Two Peas in a Pod", windowWidth / 2, windowHeight / 4);
+		textAlign(CENTER, CENTER);
+
+		if (windowWidth >= 800) {
+			easyMode.update(windowWidth / 4, windowHeight / 2);
+			normalMode.update((2 * windowWidth) / 4, windowHeight / 2);
+			hardMode.update((3 * windowWidth) / 4, windowHeight / 2);
+		} else {
+			easyMode.update(windowWidth / 2, (3 * windowHeight) / 6);
+			normalMode.update(windowWidth / 2, (4 * windowHeight) / 6);
+			hardMode.update(windowWidth / 2, (5 * windowHeight) / 6);
+		}
+
+		easyMode.show();
+		normalMode.show();
+		hardMode.show();
+	} else {
+		clear();
+		background("#caffbf");
+
+		for (let i = 0; i < cards.length; i++) {
+			cards[i].show();
+		}
+
+		if (startTime === 0) {
+			startTime = millis();
+		}
+	}
+}
+
+/**
+ * Checks if the card has a value,
+ * else it assigns one
+ *
+ * @param {*} i - index of card
+ * @returns
+ */
+function checkIfCardHasValue(i) {
+	const randomCardIndex = Math.floor(Math.random() * cards.length);
+
+	if (cards[randomCardIndex].getValue() === undefined) {
+		cards[randomCardIndex].setValue(cardValues[i]);
+		return;
+	} else {
+		checkIfCardHasValue(i);
+	}
+}
+
+/**
+ * Method used to compare one number to another
+ * If difference is negative, a comes before b
+ * If difference is positive, b comes before a
+ * If diffence is zero, a and b are the same number
+ *
+ * @param {*} a - first number
+ * @param {*} b - second number
+ * @returns the difference of the two numbers
+ */
+function compareNumbers(a, b) {
+	return a - b;
+}
+
+function createMenuButtons() {
+	if (windowWidth >= 800) {
+		easyMode = new Button(
+			windowWidth / 4,
+			windowHeight / 2,
+			200,
+			50,
+			"Easy Mode"
+		);
+		normalMode = new Button(
+			(2 * windowWidth) / 4,
+			windowHeight / 2,
+			200,
+			50,
+			"Normal Mode"
+		);
+		hardMode = new Button(
+			(3 * windowWidth) / 4,
+			windowHeight / 2,
+			200,
+			50,
+			"Hard Mode"
+		);
+	} else {
+		easyMode = new Button(
+			windowWidth / 2,
+			(3 * windowHeight) / 6,
+			200,
+			50,
+			"Easy Mode"
+		);
+		normalMode = new Button(
+			windowWidth / 2,
+			(4 * windowHeight) / 6,
+			200,
+			50,
+			"Normal Mode"
+		);
+		hardMode = new Button(
+			windowWidth / 2,
+			(5 * windowHeight) / 6,
+			200,
+			50,
+			"Hard Mode"
+		);
+	}
+}
+
+function createPlaySpace(numberOfCards) {
 	numberOfCards = 24;
 	cards = [];
 	cardValues = [];
@@ -67,54 +191,6 @@ function setup() {
 		for (let j = 0; j < 2; j++) {
 			checkIfCardHasValue(i);
 		}
-	}
-}
-
-/**
- * What the player sees
- */
-function draw() {
-	background("#caffbf");
-
-	if (!startGame) {
-		fill("#4DA346");
-		textFont(titleFont);
-		textSize(windowWidth * 0.1);
-		text("Two Peas in a Pod", windowWidth / 2, windowHeight / 4);
-		textAlign(CENTER, CENTER);
-
-		fill(255);
-		startButton.update(windowWidth / 2, windowHeight / 2);
-		startButton.show();
-	} else {
-		clear();
-		background("#caffbf");
-
-		for (let i = 0; i < cards.length; i++) {
-			cards[i].show();
-		}
-
-		if (startTime === 0) {
-			startTime = millis();
-		}
-	}
-}
-
-/**
- * Checks if the card has a value,
- * else it assigns one
- *
- * @param {*} i - index of card
- * @returns
- */
-function checkIfCardHasValue(i) {
-	const randomCardIndex = Math.floor(Math.random() * cards.length);
-
-	if (cards[randomCardIndex].getValue() === undefined) {
-		cards[randomCardIndex].setValue(cardValues[i]);
-		return;
-	} else {
-		checkIfCardHasValue(i);
 	}
 }
 
@@ -268,18 +344,4 @@ function touchStarted() {
 			alert(`Congratulations! You finished in ${gameTime} seconds`);
 		}
 	}
-}
-
-/**
- * Method used to compare one number to another
- * If difference is negative, a comes before b
- * If difference is positive, b comes before a
- * If diffence is zero, a and b are the same number
- *
- * @param {*} a - first number
- * @param {*} b - second number
- * @returns the difference of the two numbers
- */
-function compareNumbers(a, b) {
-	return a - b;
 }

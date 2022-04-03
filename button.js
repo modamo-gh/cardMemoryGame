@@ -7,22 +7,24 @@ class Button {
 	 * @param {*} w - width of button
 	 * @param {*} h - height of button
 	 */
-	constructor(x, y, w, h) {
+	constructor(x, y, w, h, mode) {
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
+		this.mode = mode;
 	}
 
 	/**
-	 * Displays button with "Start Game" text
+	 * Displays button with the appropriate mode text
 	 */
 	show() {
+		fill("#FFFFFF");
 		rectMode(CENTER);
 		rect(this.x, this.y, this.w, this.h);
 		textSize(24);
 		fill(0);
-		text("Start Game", this.x, this.y);
+		text(this.mode, this.x, this.y);
 		textAlign(CENTER, CENTER);
 	}
 
