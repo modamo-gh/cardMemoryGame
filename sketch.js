@@ -1,8 +1,15 @@
 let titleFont;
 
+/**
+ * Preload the font used in the game
+ */
 function preload() {
 	titleFont = loadFont("assets/ChelseaMarket-Regular.ttf");
 }
+
+/**
+ * Setup of the game
+ */
 function setup() {
 	createCanvas(displayWidth, displayHeight);
 
@@ -63,6 +70,9 @@ function setup() {
 	}
 }
 
+/**
+ * What the player sees
+ */
 function draw() {
 	background("#caffbf");
 
@@ -90,6 +100,13 @@ function draw() {
 	}
 }
 
+/**
+ * Checks if the card has a value,
+ * else it assigns one
+ *
+ * @param {*} i - index of card
+ * @returns
+ */
 function checkIfCardHasValue(i) {
 	const randomCardIndex = Math.floor(Math.random() * cards.length);
 
@@ -101,6 +118,11 @@ function checkIfCardHasValue(i) {
 	}
 }
 
+/**
+ * Logic that happens when mouse is clicked
+ *
+ * Here for Firefox compatibility
+ */
 function mouseClicked() {
 	if (!startGame) {
 		if (
@@ -173,6 +195,9 @@ function mouseClicked() {
 	}
 }
 
+/**
+ * Logic to happen for mobile device taps
+ */
 function touchStarted() {
 	if (!startGame) {
 		if (
@@ -245,6 +270,16 @@ function touchStarted() {
 	}
 }
 
+/**
+ * Method used to compare one number to another
+ * If difference is negative, a comes before b
+ * If difference is positive, b comes before a
+ * If diffence is zero, a and b are the same number
+ *
+ * @param {*} a - first number
+ * @param {*} b - second number
+ * @returns the difference of the two numbers
+ */
 function compareNumbers(a, b) {
 	return a - b;
 }
