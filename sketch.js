@@ -36,7 +36,21 @@ function draw() {
 		}
 
 		for (let i = 0; i < cards.length; i++) {
-			cards[i].show();
+			if (cards[i].getIsVisible()) {
+				if (windowWidth / cardsPerRows > windowHeight / rows) {
+					diameter = (0.9 * windowHeight) / rows;
+				} else {
+					diameter = (0.9 * windowWidth) / cardsPerRows;
+				}
+				cards[i].update(
+					((i % cardsPerRows) * windowWidth) / cardsPerRows +
+						windowWidth / cardsPerRows / 2,
+					(Math.floor(i / cardsPerRows) * windowHeight) / rows +
+						windowHeight / rows / 2,
+					diameter
+				);
+				cards[i].show();
+			}
 		}
 
 		if (startTime === 0) {
@@ -295,10 +309,10 @@ function touchStarted() {
 			currentHand.length === 2 &&
 			currentHand[0].getValue() === currentHand[1].getValue()
 		) {
-			cards.splice(cards.indexOf(currentHand[0]), 1);
+			cards[cards.indexOf(currentHand[0])].setIsVisible(false);
 			currentHand.shift();
 
-			cards.splice(cards.indexOf(currentHand[0]), 1);
+			cards[cards.indexOf(currentHand[0])].setIsVisible(false);
 			currentHand.shift();
 
 			pairs++;

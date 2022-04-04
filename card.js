@@ -11,13 +11,16 @@ class Card {
 		this.diameter = diameter;
 		this.value;
 		this.isShowingBack = true;
+		this.isVisible = true;
 	}
 
 	/**
 	 * Flips card to opposite side
 	 */
 	flip() {
-		this.isShowingBack = !this.isShowingBack;
+		if (this.isVisible) {
+			this.isShowingBack = !this.isShowingBack;
+		}
 	}
 
 	/**
@@ -29,6 +32,10 @@ class Card {
 		return this.isShowingBack;
 	}
 
+	getIsVisible() {
+		return this.isVisible;
+	}
+
 	/**
 	 * Getter for the value field
 	 *
@@ -38,6 +45,9 @@ class Card {
 		return this.value;
 	}
 
+	setIsVisible(parity) {
+		this.isVisible = parity;
+	}
 	/**
 	 * Sets value of the card
 	 *
@@ -52,10 +62,12 @@ class Card {
 	 * depending on what side of the card is showing
 	 */
 	show() {
-		if (this.isShowingBack) {
-			this.showBack();
-		} else {
-			this.showFront();
+		if (this.isVisible) {
+			if (this.isShowingBack) {
+				this.showBack();
+			} else {
+				this.showFront();
+			}
 		}
 	}
 
@@ -79,5 +91,11 @@ class Card {
 		text(this.value, this.x, this.y);
 		textAlign(CENTER, CENTER);
 		textSize(32);
+	}
+
+	update(x, y, diameter) {
+		this.x = x;
+		this.y = y;
+		this.diameter = diameter;
 	}
 }
