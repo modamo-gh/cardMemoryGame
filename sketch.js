@@ -25,25 +25,7 @@ function draw() {
 	background("#caffbf");
 
 	if (gameState === 0) {
-		fill("#4DA346");
-		textFont(titleFont);
-		textSize(windowWidth * 0.1);
-		text("Two Peas in a Pod", windowWidth / 2, windowHeight / 4);
-		textAlign(CENTER, CENTER);
-
-		if (windowWidth >= 800) {
-			easyMode.update(windowWidth / 4, windowHeight / 2);
-			normalMode.update((2 * windowWidth) / 4, windowHeight / 2);
-			hardMode.update((3 * windowWidth) / 4, windowHeight / 2);
-		} else {
-			easyMode.update(windowWidth / 2, (3 * windowHeight) / 6);
-			normalMode.update(windowWidth / 2, (4 * windowHeight) / 6);
-			hardMode.update(windowWidth / 2, (5 * windowHeight) / 6);
-		}
-
-		easyMode.show();
-		normalMode.show();
-		hardMode.show();
+		drawMenuScreen();
 	} else {
 		clear();
 		background("#caffbf");
@@ -141,6 +123,28 @@ function createMenuButtons() {
 			"Hard Mode"
 		);
 	}
+}
+
+function drawMenuScreen() {
+	fill("#4DA346");
+	textFont(titleFont);
+	textSize(windowWidth * 0.1);
+	text("Two Peas in a Pod", windowWidth / 2, windowHeight / 4);
+	textAlign(CENTER, CENTER);
+
+	if (windowWidth >= 800) {
+		easyMode.update(windowWidth / 4, windowHeight / 2);
+		normalMode.update((2 * windowWidth) / 4, windowHeight / 2);
+		hardMode.update((3 * windowWidth) / 4, windowHeight / 2);
+	} else {
+		easyMode.update(windowWidth / 2, (3 * windowHeight) / 6);
+		normalMode.update(windowWidth / 2, (4 * windowHeight) / 6);
+		hardMode.update(windowWidth / 2, (5 * windowHeight) / 6);
+	}
+
+	easyMode.show();
+	normalMode.show();
+	hardMode.show();
 }
 
 function createPlaySpace(gameState) {
@@ -305,7 +309,10 @@ function touchStarted() {
 			let gameTime = ((endTime - startTime) / 1000).toFixed(2);
 
 			alert(`Congratulations! You finished in ${gameTime} seconds`);
+
 			clear();
+			isPlaySpaceDrawn = false;
+			gameState = 0;
 		}
 	}
 }
