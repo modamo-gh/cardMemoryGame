@@ -1,5 +1,5 @@
 let titleFont;
-let startGame;
+let startGame = 0;
 
 /**
  * Preload the font used in the game
@@ -15,8 +15,6 @@ function setup() {
 	createCanvas(displayWidth, displayHeight);
 
 	createMenuButtons();
-
-	startGame = false;
 }
 
 /**
@@ -200,89 +198,35 @@ function createPlaySpace(numberOfCards) {
  * Here for Firefox compatibility
  */
 function mouseClicked() {
-	if (!startGame) {
-		if (
-			mouseX <= startButton.x + startButton.w / 2 &&
-			mouseX >= startButton.x - startButton.w / 2 &&
-			mouseY <= startButton.y + startButton.h / 2 &&
-			mouseY >= startButton.y - startButton.h / 2
-		) {
-			startGame = true;
-		}
-	} else {
-		let clickedCard = null;
-
-		for (let i = 0; i < cards.length; i++) {
-			if (
-				Math.sqrt(
-					(mouseX - cards[i].x) ** 2 + (mouseY - cards[i].y) ** 2
-				) <=
-				cards[i].d / 2
-			) {
-				clickedCard = cards[i];
-				clickedCard.flip();
-				break;
-			}
-		}
-
-		if (
-			currentHand.length < 2 &&
-			!clickedCard.getIsShowingBack() &&
-			clickedCard !== currentHand[0]
-		) {
-			currentHand.push(clickedCard);
-		} else if (
-			currentHand.length === 1 &&
-			currentHand[0].getIsShowingBack()
-		) {
-			currentHand.shift();
-		}
-
-		if (
-			currentHand.length === 2 &&
-			currentHand[0].getValue() !== currentHand[1].getValue()
-		) {
-			setTimeout(function () {
-				currentHand[0]?.flip();
-				currentHand[1]?.flip();
-
-				currentHand.pop();
-				currentHand.pop();
-			}, 1000);
-		} else if (
-			currentHand.length === 2 &&
-			currentHand[0].getValue() === currentHand[1].getValue()
-		) {
-			cards.splice(cards.indexOf(currentHand[0]), 1);
-			currentHand.shift();
-
-			cards.splice(cards.indexOf(currentHand[0]), 1);
-			currentHand.shift();
-
-			pairs++;
-		}
-
-		if (pairs === numberOfCards / 2) {
-			const endTime = millis();
-			let gameTime = ((endTime - startTime) / 1000).toFixed(2);
-
-			alert(`Congratulations! You finished in ${gameTime} seconds`);
-		}
-	}
+	touchStarted();
 }
 
 /**
  * Logic to happen for mobile device taps
  */
 function touchStarted() {
-	if (!startGame) {
+	if (startGame === 0) {
 		if (
-			mouseX <= startButton.x + startButton.w / 2 &&
-			mouseX >= startButton.x - startButton.w / 2 &&
-			mouseY <= startButton.y + startButton.h / 2 &&
-			mouseY >= startButton.y - startButton.h / 2
+			mouseX <= easyMode.x + easyMode.w / 2 &&
+			mouseX >= easyMode.x - easyMode.w / 2 &&
+			mouseY <= easyMode.y + easyMode.h / 2 &&
+			mouseY >= easyMode.y - easyMode.h / 2
 		) {
-			startGame = true;
+			startGame = 1;
+		} else if (
+			mouseX <= normalMode.x + normalMode.w / 2 &&
+			mouseX >= normalMode.x - normalMode.w / 2 &&
+			mouseY <= normalMode.y + normalMode.h / 2 &&
+			mouseY >= normalMode.y - normalMode.h / 2
+		) {
+			startGame = 2;
+		} else if (
+			mouseX <= hardMode.x + hardMode.w / 2 &&
+			mouseX >= hardMode.x - hardMode.w / 2 &&
+			mouseY <= hardMode.y + hardMode.h / 2 &&
+			mouseY >= hardMode.y - hardMode.h / 2
+		) {
+			startGame = 3;
 		}
 	} else {
 		let clickedCard = null;
