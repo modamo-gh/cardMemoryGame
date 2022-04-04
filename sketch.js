@@ -1,5 +1,6 @@
 let titleFont;
-let startGame = 0;
+let gameState = 0;
+let isPlaySpaceDrawn = false;
 
 /**
  * Preload the font used in the game
@@ -23,7 +24,7 @@ function setup() {
 function draw() {
 	background("#caffbf");
 
-	if (!startGame) {
+	if (gameState === 0) {
 		fill("#4DA346");
 		textFont(titleFont);
 		textSize(windowWidth * 0.1);
@@ -46,6 +47,11 @@ function draw() {
 	} else {
 		clear();
 		background("#caffbf");
+
+		if (!isPlaySpaceDrawn) {
+			createPlaySpace(gameState);
+			isPlaySpaceDrawn = true;
+		}
 
 		for (let i = 0; i < cards.length; i++) {
 			cards[i].show();
@@ -137,8 +143,21 @@ function createMenuButtons() {
 	}
 }
 
-function createPlaySpace(numberOfCards) {
-	numberOfCards = 24;
+function createPlaySpace(gameState) {
+	switch (gameState) {
+		case 1:
+			numberOfCards = 6;
+			break;
+		case 2:
+			numberOfCards = 12;
+			break;
+		case 3:
+			numberOfCards = 24;
+			break;
+		default:
+			break;
+	}
+
 	cards = [];
 	cardValues = [];
 	currentHand = [];
@@ -197,36 +216,36 @@ function createPlaySpace(numberOfCards) {
  *
  * Here for Firefox compatibility
  */
-function mouseClicked() {
-	touchStarted();
-}
+// function mouseClicked() {
+// 	touchStarted();
+// }
 
 /**
  * Logic to happen for mobile device taps
  */
 function touchStarted() {
-	if (startGame === 0) {
+	if (gameState === 0) {
 		if (
 			mouseX <= easyMode.x + easyMode.w / 2 &&
 			mouseX >= easyMode.x - easyMode.w / 2 &&
 			mouseY <= easyMode.y + easyMode.h / 2 &&
 			mouseY >= easyMode.y - easyMode.h / 2
 		) {
-			startGame = 1;
+			gameState = 1;
 		} else if (
 			mouseX <= normalMode.x + normalMode.w / 2 &&
 			mouseX >= normalMode.x - normalMode.w / 2 &&
 			mouseY <= normalMode.y + normalMode.h / 2 &&
 			mouseY >= normalMode.y - normalMode.h / 2
 		) {
-			startGame = 2;
+			gameState = 2;
 		} else if (
 			mouseX <= hardMode.x + hardMode.w / 2 &&
 			mouseX >= hardMode.x - hardMode.w / 2 &&
 			mouseY <= hardMode.y + hardMode.h / 2 &&
 			mouseY >= hardMode.y - hardMode.h / 2
 		) {
-			startGame = 3;
+			gameState = 3;
 		}
 	} else {
 		let clickedCard = null;
@@ -236,7 +255,7 @@ function touchStarted() {
 				Math.sqrt(
 					(mouseX - cards[i].x) ** 2 + (mouseY - cards[i].y) ** 2
 				) <=
-				cards[i].d / 2
+				cards[i].diameter / 2
 			) {
 				clickedCard = cards[i];
 				clickedCard.flip();
@@ -286,6 +305,7 @@ function touchStarted() {
 			let gameTime = ((endTime - startTime) / 1000).toFixed(2);
 
 			alert(`Congratulations! You finished in ${gameTime} seconds`);
+			clear();
 		}
 	}
 }
