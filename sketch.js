@@ -1,6 +1,8 @@
 let titleFont;
 let gameState = 0;
 let isPlaySpaceDrawn = false;
+let isClick = true;
+let isTouch = true;
 
 /**
  * Preload the font used in the game
@@ -234,103 +236,205 @@ function createPlaySpace(gameState) {
  *
  * Here for Firefox compatibility
  */
-// function mouseClicked() {
-// 	touchStarted();
-// }
+function mouseClicked() {
+	if (isClick) {
+		isTouch = false;
+
+		if (gameState === 0) {
+			if (
+				mouseX <= easyMode.x + easyMode.w / 2 &&
+				mouseX >= easyMode.x - easyMode.w / 2 &&
+				mouseY <= easyMode.y + easyMode.h / 2 &&
+				mouseY >= easyMode.y - easyMode.h / 2
+			) {
+				gameState = 1;
+			} else if (
+				mouseX <= normalMode.x + normalMode.w / 2 &&
+				mouseX >= normalMode.x - normalMode.w / 2 &&
+				mouseY <= normalMode.y + normalMode.h / 2 &&
+				mouseY >= normalMode.y - normalMode.h / 2
+			) {
+				gameState = 2;
+			} else if (
+				mouseX <= hardMode.x + hardMode.w / 2 &&
+				mouseX >= hardMode.x - hardMode.w / 2 &&
+				mouseY <= hardMode.y + hardMode.h / 2 &&
+				mouseY >= hardMode.y - hardMode.h / 2
+			) {
+				gameState = 3;
+			}
+		} else {
+			let clickedCard = null;
+
+			for (let i = 0; i < cards.length; i++) {
+				if (
+					Math.sqrt(
+						(mouseX - cards[i].x) ** 2 + (mouseY - cards[i].y) ** 2
+					) <=
+					cards[i].diameter / 2
+				) {
+					clickedCard = cards[i];
+
+					if (currentHand.length !== 2) {
+						clickedCard.flip();
+					}
+
+					break;
+				}
+			}
+
+			if (
+				currentHand.length < 2 &&
+				!clickedCard.getIsShowingBack() &&
+				clickedCard !== currentHand[0]
+			) {
+				currentHand.push(clickedCard);
+			} else if (
+				currentHand.length === 1 &&
+				currentHand[0].getIsShowingBack()
+			) {
+				currentHand.shift();
+			}
+
+			if (
+				currentHand.length === 2 &&
+				currentHand[0].getValue() !== currentHand[1].getValue()
+			) {
+				setTimeout(function () {
+					currentHand[0]?.flip();
+					currentHand[1]?.flip();
+
+					currentHand.pop();
+					currentHand.pop();
+				}, 1000);
+			} else if (
+				currentHand.length === 2 &&
+				currentHand[0].getValue() === currentHand[1].getValue()
+			) {
+				cards[cards.indexOf(currentHand[0])].setIsVisible(false);
+				currentHand.shift();
+
+				cards[cards.indexOf(currentHand[0])].setIsVisible(false);
+				currentHand.shift();
+
+				pairs++;
+			}
+
+			if (pairs === numberOfCards / 2) {
+				const endTime = millis();
+				let gameTime = ((endTime - startTime) / 1000).toFixed(2);
+
+				alert(`Congratulations! You finished in ${gameTime} seconds`);
+
+				clear();
+				isPlaySpaceDrawn = false;
+				gameState = 0;
+
+				isTouch = true;
+			}
+		}
+	}
+}
 
 /**
  * Logic to happen for mobile device taps
  */
 function touchStarted() {
-	if (gameState === 0) {
-		if (
-			mouseX <= easyMode.x + easyMode.w / 2 &&
-			mouseX >= easyMode.x - easyMode.w / 2 &&
-			mouseY <= easyMode.y + easyMode.h / 2 &&
-			mouseY >= easyMode.y - easyMode.h / 2
-		) {
-			gameState = 1;
-		} else if (
-			mouseX <= normalMode.x + normalMode.w / 2 &&
-			mouseX >= normalMode.x - normalMode.w / 2 &&
-			mouseY <= normalMode.y + normalMode.h / 2 &&
-			mouseY >= normalMode.y - normalMode.h / 2
-		) {
-			gameState = 2;
-		} else if (
-			mouseX <= hardMode.x + hardMode.w / 2 &&
-			mouseX >= hardMode.x - hardMode.w / 2 &&
-			mouseY <= hardMode.y + hardMode.h / 2 &&
-			mouseY >= hardMode.y - hardMode.h / 2
-		) {
-			gameState = 3;
-		}
-	} else {
-		let clickedCard = null;
+	if (isTouch) {
+		isClick = false;
 
-		for (let i = 0; i < cards.length; i++) {
+		if (gameState === 0) {
 			if (
-				Math.sqrt(
-					(mouseX - cards[i].x) ** 2 + (mouseY - cards[i].y) ** 2
-				) <=
-				cards[i].diameter / 2
+				mouseX <= easyMode.x + easyMode.w / 2 &&
+				mouseX >= easyMode.x - easyMode.w / 2 &&
+				mouseY <= easyMode.y + easyMode.h / 2 &&
+				mouseY >= easyMode.y - easyMode.h / 2
 			) {
-				clickedCard = cards[i];
-
-				if (currentHand.length !== 2) {
-					clickedCard.flip();
-				}
-
-				break;
+				gameState = 1;
+			} else if (
+				mouseX <= normalMode.x + normalMode.w / 2 &&
+				mouseX >= normalMode.x - normalMode.w / 2 &&
+				mouseY <= normalMode.y + normalMode.h / 2 &&
+				mouseY >= normalMode.y - normalMode.h / 2
+			) {
+				gameState = 2;
+			} else if (
+				mouseX <= hardMode.x + hardMode.w / 2 &&
+				mouseX >= hardMode.x - hardMode.w / 2 &&
+				mouseY <= hardMode.y + hardMode.h / 2 &&
+				mouseY >= hardMode.y - hardMode.h / 2
+			) {
+				gameState = 3;
 			}
-		}
+		} else {
+			let clickedCard = null;
 
-		if (
-			currentHand.length < 2 &&
-			!clickedCard.getIsShowingBack() &&
-			clickedCard !== currentHand[0]
-		) {
-			currentHand.push(clickedCard);
-		} else if (
-			currentHand.length === 1 &&
-			currentHand[0].getIsShowingBack()
-		) {
-			currentHand.shift();
-		}
+			for (let i = 0; i < cards.length; i++) {
+				if (
+					Math.sqrt(
+						(mouseX - cards[i].x) ** 2 + (mouseY - cards[i].y) ** 2
+					) <=
+					cards[i].diameter / 2
+				) {
+					clickedCard = cards[i];
 
-		if (
-			currentHand.length === 2 &&
-			currentHand[0].getValue() !== currentHand[1].getValue()
-		) {
-			setTimeout(function () {
-				currentHand[0]?.flip();
-				currentHand[1]?.flip();
+					if (currentHand.length !== 2) {
+						clickedCard.flip();
+					}
 
-				currentHand.pop();
-				currentHand.pop();
-			}, 1000);
-		} else if (
-			currentHand.length === 2 &&
-			currentHand[0].getValue() === currentHand[1].getValue()
-		) {
-			cards[cards.indexOf(currentHand[0])].setIsVisible(false);
-			currentHand.shift();
+					break;
+				}
+			}
 
-			cards[cards.indexOf(currentHand[0])].setIsVisible(false);
-			currentHand.shift();
+			if (
+				currentHand.length < 2 &&
+				!clickedCard.getIsShowingBack() &&
+				clickedCard !== currentHand[0]
+			) {
+				currentHand.push(clickedCard);
+			} else if (
+				currentHand.length === 1 &&
+				currentHand[0].getIsShowingBack()
+			) {
+				currentHand.shift();
+			}
 
-			pairs++;
-		}
+			if (
+				currentHand.length === 2 &&
+				currentHand[0].getValue() !== currentHand[1].getValue()
+			) {
+				setTimeout(function () {
+					currentHand[0]?.flip();
+					currentHand[1]?.flip();
 
-		if (pairs === numberOfCards / 2) {
-			const endTime = millis();
-			let gameTime = ((endTime - startTime) / 1000).toFixed(2);
+					currentHand.pop();
+					currentHand.pop();
+				}, 1000);
+			} else if (
+				currentHand.length === 2 &&
+				currentHand[0].getValue() === currentHand[1].getValue()
+			) {
+				cards[cards.indexOf(currentHand[0])].setIsVisible(false);
+				currentHand.shift();
 
-			alert(`Congratulations! You finished in ${gameTime} seconds`);
+				cards[cards.indexOf(currentHand[0])].setIsVisible(false);
+				currentHand.shift();
 
-			clear();
-			isPlaySpaceDrawn = false;
-			gameState = 0;
+				pairs++;
+			}
+
+			if (pairs === numberOfCards / 2) {
+				const endTime = millis();
+				let gameTime = ((endTime - startTime) / 1000).toFixed(2);
+
+				alert(`Congratulations! You finished in ${gameTime} seconds`);
+
+				clear();
+				isPlaySpaceDrawn = false;
+				gameState = 0;
+
+				isClick = true;
+			}
 		}
 	}
 }
