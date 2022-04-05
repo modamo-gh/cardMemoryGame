@@ -276,7 +276,11 @@ function touchStarted() {
 				cards[i].diameter / 2
 			) {
 				clickedCard = cards[i];
-				clickedCard.flip();
+
+				if (currentHand.length !== 2) {
+					clickedCard.flip();
+				}
+
 				break;
 			}
 		}
